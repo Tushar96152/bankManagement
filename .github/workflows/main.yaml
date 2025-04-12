@@ -44,6 +44,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/bankmanagement/
+            sudo pm2 delete all || true
             mvn clean package
-            sudo pm2 delete bankmanagement || true
             sudo pm2 start java -- -jar target/banking-0.0.1-SNAPSHOT.jar --name bankmanagement
