@@ -72,8 +72,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://api.techcode.cfd"));
-        
+        configuration.setAllowedOrigins(List.of(
+    "http://localhost:4200",
+    "https://api.techcode.cfd",
+    "https://techcode.cfd" // ✅ add this
+));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
@@ -86,7 +90,11 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
+        .allowedOrigins(
+            "http://localhost:4200",
+            "https://techcode.cfd",
+            "https://api.techcode.cfd"
+        )        
                 .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD")
                 .allowedHeaders("*")
                 .allowCredentials(true);
