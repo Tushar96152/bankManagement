@@ -32,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ApiResponse<UserResponse> login(UserLoginRequest userLoginRequest) {
-
+        LOGGER.info("[UserServiceImpl >> login] Request received:");
+        System.out.println("Login apu hit");
             ApiResponse<UserResponse> response = new ApiResponse<>();
         try {
 
@@ -40,10 +41,10 @@ public class UserServiceImpl implements UserService {
                     .findByEmailIgnoreCase(userLoginRequest.getEmail());
     
             if (userOptional.isPresent()) {
-                User user = userOptional.get();
+                User savedUser = userOptional.get();
     
                
-                if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+                if (savedUser.getPassword() == null || savedUser.getPassword().trim().isEmpty()) {
 
                     response.setCode(0);
                     response.setMeassage("User not registered.");
@@ -51,32 +52,45 @@ public class UserServiceImpl implements UserService {
                 }
     
                 
-                if (!user.getPassword().equals(userLoginRequest.getPassword())) {
+                if (!savedUser.getPassword().equals(userLoginRequest.getPassword())) {
                     response.setCode(0);
                     response.setMeassage("Invalid Password");
                     return response;
                 }
     
                
-                String authToken = jwtUtil.generateToken(user).replaceFirst("^Bearer ", "");
+                String authToken = jwtUtil.generateToken(savedUser).replaceFirst("^Bearer ", "");
     
-              
+                
+                            UserResponse userResponse =
+                                UserResponse.builder()
+                            .id(savedUser.getId())
+                            .name(savedUser.getName())
+                            .email(savedUser.getEmail())
+                            .phone(savedUser.getPhone())
+                            .dob(savedUser.getDob())
+                            .gender(savedUser.getGender())
+                            .roleId(savedUser.getRole().getId())
+                            .token(authToken)
+                            .build();
+
                 response.setCode(1);
                 response.setMeassage("Login successful");
-                response.getData().setToken(authToken);
-                return response;
+                response.setData(userResponse);
+                
             } else {
 
                 response.setCode(0);
                 response.setMeassage("User Not Found");
-                return response;
+                
             }
     
         } catch (Exception e) {
             response.setCode(0);
             response.setMeassage("Internal Server Error");
-            return response;
+            
         }
+        return response;
     }
 
     @Override

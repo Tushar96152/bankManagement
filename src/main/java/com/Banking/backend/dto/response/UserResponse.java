@@ -22,6 +22,7 @@ public class UserResponse {
     private String branch;
     private String phone;
     private String token;
-
+    private String gender;
+    private String nationality;
 
 }
