@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
                
                 String authToken = jwtUtil.generateToken(savedUser).replaceFirst("^Bearer ", "");
     
-                
+                            //changes
                             UserResponse userResponse =
                                 UserResponse.builder()
                             .id(savedUser.getId())
