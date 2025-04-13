@@ -11,6 +11,8 @@ import com.Banking.backend.service.UserService;
 
 import com.Banking.backend.utils.JwtUtil;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -47,14 +49,14 @@ public class UserServiceImpl implements UserService {
                 if (savedUser.getPassword() == null || savedUser.getPassword().trim().isEmpty()) {
 
                     response.setCode(0);
-                    response.setMeassage("User not registered.");
+                    response.setMessage("User not registered.");
                     return response;
                 }
     
                 
                 if (!savedUser.getPassword().equals(userLoginRequest.getPassword())) {
                     response.setCode(0);
-                    response.setMeassage("Invalid Password");
+                    response.setMessage("Invalid Password");
                     return response;
                 }
     
@@ -75,19 +77,19 @@ public class UserServiceImpl implements UserService {
                             .build();
 
                 response.setCode(1);
-                response.setMeassage("Login successful");
+                response.setMessage("Login successful");
                 response.setData(userResponse);
                 
             } else {
 
                 response.setCode(0);
-                response.setMeassage("User Not Found");
+                response.setMessage("User Not Found");
                 
             }
     
         } catch (Exception e) {
             response.setCode(0);
-            response.setMeassage("Internal Server Error");
+            response.setMessage("Internal Server Error");
             
         }
         return response;
@@ -100,6 +102,20 @@ public class UserServiceImpl implements UserService {
     try{
         User newUser = new User();
 
+
+        if (RepositoryAccessor.getUserRepository()
+                 .existsByPhoneAndIsActive(userRegisterRequest.getPhone(), true)) {
+            response.setCode(0);
+            response.setMessage("Phone number already exists");
+            return response;
+        }
+        
+        if (RepositoryAccessor.getUserRepository()
+        .existsByEmailAndIsActive(userRegisterRequest.getEmail(), true)) {
+                response.setCode(0);
+                response.setMessage("Email already exists");
+                return response;
+        }
         newUser.setName(userRegisterRequest.getName());
         newUser.setDob(userRegisterRequest.getDob());
         newUser.setEmail(userRegisterRequest.getEmail());
@@ -110,21 +126,73 @@ public class UserServiceImpl implements UserService {
         if (defaultRole.isPresent()) {
             newUser.setRole(defaultRole.get());
         }
-        User user = RepositoryAccessor.getUserRepository().save(newUser);
+        User savedUser = RepositoryAccessor.getUserRepository().save(newUser);
+        
+        response.setCode(1);
+        response.setMessage("User Registerd Successfully");                
+            UserResponse userResponse =
+            UserResponse.builder()
+                .id(savedUser.getId())
+                .name(savedUser.getName())
+                .email(savedUser.getEmail())
+                .phone(savedUser.getPhone())
+                .dob(savedUser.getDob())
+                .gender(savedUser.getGender())
+                .roleId(savedUser.getRole().getId())
+                .build();
+        response.setData(userResponse);
 
-        // sending welcome mail
         myMailSenderImpl.sendWelcomeEmail(userRegisterRequest.getEmail(), userRegisterRequest.getName());
 
-        return response;
-
     }
+
         catch(Exception e)
         {
-            
+            LOGGER.error("[UserServiceImpl >> signup] Exception occurred during signup", e);
+            response.setCode(0);
+            response.setMessage("Internal server error");
+        }
+
+        return response;
+    }
+
+    @Override
+    public ApiResponse<UserResponse> getUserById(Long userId) {
+        ApiResponse<UserResponse> response = new ApiResponse<>();
+        LOGGER.info("[UserServiceImpl >> getUserById] Validating auth code.");
+       
+        try {
+            User savedUser = RepositoryAccessor.getUserRepository().findByIdAndIsActive(userId, true).orElse(null);
+            if (Objects.nonNull(savedUser)) {
+                response.setCode(1);
+                response.setMessage("User fetched successfully.");
+
+
+                                            //changes
+                UserResponse userResponse =
+                UserResponse.builder()
+                        .id(savedUser.getId())
+                        .name(savedUser.getName())
+                        .email(savedUser.getEmail())
+                        .phone(savedUser.getPhone())
+                        .dob(savedUser.getDob())
+                        .gender(savedUser.getGender())
+                        .roleId(savedUser.getRole().getId())
+                        .build();
+                response.setData(userResponse);
+               
+            } else {
+                response.setCode(0);
+                response.setMessage("User not found.");
+            }
+        } catch (Exception e) {
+            LOGGER.error(
+                    "[UserServiceImpl >> getUserById] Error occurred while fetching user by ID: {}", userId, e);
+            response.setCode(0);
+            response.setMessage("Error while fetching user.");
         }
 
         return response;
     }
     
-
 }

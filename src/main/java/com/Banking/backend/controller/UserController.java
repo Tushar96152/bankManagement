@@ -1,9 +1,13 @@
 package com.Banking.backend.controller;
 
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Banking.backend.dto.request.UserLoginRequest;
@@ -29,4 +33,10 @@ public class UserController {
     public ApiResponse<UserResponse> register(@RequestBody UserRegisterRequest userRegisterRequest){
         return ServiceAccessor.getUserService().register(userRegisterRequest);
     }
+
+    @GetMapping("getById/{id}")
+    public ApiResponse<UserResponse> getUserById(@PathVariable ("id") Long userId){
+        return ServiceAccessor.getUserService().getUserById(userId);
+    }
+
 }

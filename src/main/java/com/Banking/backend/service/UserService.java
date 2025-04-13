@@ -2,6 +2,8 @@ package com.Banking.backend.service;
 
 
 
+import java.util.List;
+
 import com.Banking.backend.dto.request.UserLoginRequest;
 import com.Banking.backend.dto.request.UserRegisterRequest;
 import com.Banking.backend.dto.response.ApiResponse;
@@ -13,5 +15,5 @@ public interface UserService {
 
      ApiResponse<UserResponse> login(UserLoginRequest userLoginRequest);
      ApiResponse<UserResponse>  register(UserRegisterRequest userRegisterRequest);
-    
+     ApiResponse<UserResponse> getUserById(Long userId);
 }
