@@ -73,7 +73,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
-    "http://localhost:4200",
+    "http://localhost:3000",
+    "http://localhost:5173",
     "https://api.techcode.cfd",
     "https://techcode.cfd" // ✅ add this
 ));
@@ -91,7 +92,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
         .allowedOrigins(
-            "http://localhost:4200",
+            "http://localhost:3000",
+            "http://localhost:5173",
             "https://techcode.cfd",
             "https://api.techcode.cfd"
         )        

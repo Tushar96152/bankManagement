@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ApiResponse<User> register(UserRegisterRequest userRegisterRequest) {
 
-        ApiResponse<User> response = new ApiResponse<>();
+        ApiResponse<UserResponse> response = new ApiResponse<>();
 
         User newUser = new User();
 
