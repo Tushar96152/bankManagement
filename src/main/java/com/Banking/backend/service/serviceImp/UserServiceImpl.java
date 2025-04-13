@@ -94,10 +94,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ApiResponse<User> register(UserRegisterRequest userRegisterRequest) {
+    public ApiResponse<UserResponse> register(UserRegisterRequest userRegisterRequest) {
 
         ApiResponse<UserResponse> response = new ApiResponse<>();
-
+    try{
         User newUser = new User();
 
         newUser.setName(userRegisterRequest.getName());
@@ -114,6 +114,14 @@ public class UserServiceImpl implements UserService {
 
         // sending welcome mail
         myMailSenderImpl.sendWelcomeEmail(userRegisterRequest.getEmail(), userRegisterRequest.getName());
+
+        return response;
+
+    }
+        catch(Exception e)
+        {
+            
+        }
 
         return response;
     }
