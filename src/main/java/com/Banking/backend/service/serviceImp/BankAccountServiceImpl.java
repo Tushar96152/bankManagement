@@ -63,7 +63,6 @@ public ApiResponse<CreateAccountResponse> createBankAccount(CreateAccountRequest
             return response;
         }
 
-        // Create new bank account
         BankAccount account = new BankAccount();
         account.setUser(user);
         account.setBranch(branch);
@@ -82,22 +81,21 @@ public ApiResponse<CreateAccountResponse> createBankAccount(CreateAccountRequest
         if (Boolean.TRUE.equals(request.isNetBankingEnabled())) {
             account.setUserNetId(generateUniqueUserNetId());
         } else {
-            account.setUserNetId(null); // ✅ important to avoid duplicate '0'
+            account.setUserNetId(null); 
         }
 
-// Save account first
+
 BankAccount savedAccount = RepositoryAccessor.getBankAccountRepository().save(account);
 
 List<Card> savedCard = new ArrayList<>();
 if (Boolean.TRUE.equals(request.isDebitCardRequired())) {
     Card card = generateDebitCard(savedAccount.getAccountNumber());
-    card.setAccount(savedAccount); // 🔥 Ensure foreign key is linked
+    card.setAccount(savedAccount); 
     savedCard.add(RepositoryAccessor.getCardRepository().save(card));
 }
 
-// Link saved card(s) back to account object, if needed
+
 savedAccount.setCards(savedCard);
-// Optional: update account again if you want bidirectional consistency
 
 
 // Prepare response
@@ -105,17 +103,21 @@ CreateAccountResponse createAccountResponse = CreateAccountResponse.builder()
         .accountNumber(savedAccount.getAccountNumber())
         .id(savedAccount.getId())
         .branchName(savedAccount.getBranch().getName())
+        .userName(savedAccount.getUser().getName())
+        .accountTypeName(savedAccount.getType().getName().name())
+        .isActive(savedAccount.isActive())
+        .cardNumbers(savedAccount.getCards().get(0).getCardNumber())
         .build();
 
-response.setData(createAccountResponse);
-response.setCode(0);
-response.setMessage("Bank account created successfully");
+            response.setData(createAccountResponse);
+            response.setCode(1);
+            response.setMessage("Bank account created successfully");
 
 
     } catch (Exception e) {
         response.setCode(0);
         response.setMessage("Error while creating account: " + e.getMessage());
-        e.printStackTrace(); // Optional for debugging
+        e.printStackTrace(); 
     }
 
     return response;
@@ -145,8 +147,6 @@ public String generateUniqueAccountNumber() {
             // Generate a new userNetId
             userNetId = UserNetIdGenerator.generateUserNetId();
         } while (userNetId == null || RepositoryAccessor.getBankAccountRepository().existsByUserNetId(userNetId));
-        System.out.println("================================");
-        System.out.println(userNetId);
         return userNetId;
     }
     

@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class DebitCardGenerator {
 
-        private static final String BANK_CODE = "1234";
+        private static final String BANK_CODE = "5155";
     private static final Random random = new Random();
 
     
@@ -15,7 +15,7 @@ public class DebitCardGenerator {
         
         
         cardNumber.append(BANK_CODE);
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 11; i++) {
             cardNumber.append(random.nextInt(10)); 
         }
         
