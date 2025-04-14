@@ -6,4 +6,6 @@ import com.Banking.backend.entity.Card;
 
 public interface CardRepository extends CrudRepository<Card,Long> {
 
+    boolean existsByCardNumber(String cardNumber);
+
 }

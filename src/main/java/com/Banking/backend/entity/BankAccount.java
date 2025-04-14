@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,21 +34,42 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column( nullable = false,updatable = false)
     private String accountNumber;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-
+    @Column(name = "balance", nullable = false)
     private BigDecimal balance;
 
-    @OneToOne
-    @JoinColumn(name = "branch_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id", nullable = false)
     private Branch branch;
 
+    @Column(name = "nominee_name")
+    private String nomineeName;
 
+    @Column(name = "nominee_relation")
+    private String nomineeRelation;
+
+    @Column(name = "aadhaar_number")
+    private String aadhaarNumber;
+
+    @Column(name = "document_type")
+    private String documentType;
+
+    @Column(name = "document_number")
+    private String documentNumber;
+
+    @Column(name = "debit_card_required")
+    private Boolean debitCardRequired;
+
+    @Column(name = "net_banking_enabled")
+    private Boolean netBankingEnabled ;
+
+    private String userNetId;
 
     @ManyToOne
     @JoinColumn(name = "account_type_id")

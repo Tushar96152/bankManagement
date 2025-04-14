@@ -1,7 +1,10 @@
 package com.Banking.backend.dto.request;
 
+import java.math.BigDecimal;
+
 import com.Banking.backend.entity.City;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,30 +22,35 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class CreateAccountRequest {
-    @NotNull(message = "User ID is required")
+ @NotNull(message = "User ID is required")
     private Long userId;
 
-    @NotBlank(message = "Account type is required")
-    private String accountType;
+    
+    @NotNull(message = "Branch ID is required")
+    private Long branchId;
 
-    @NotBlank(message = "Aadhar number is required")
-    @Size(min = 12, max = 12, message = "Aadhar number must be 12 digits")
-    private String aadharNo;
+    
+    @NotNull(message = "Balance is required")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Balance must be non-negative")
+    private BigDecimal balance;
 
-    @NotBlank(message = "PAN number is required")
-    @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}", message = "Invalid PAN format")
-    private String panNo;
+   
+    private String nomineeName;
+    private String nomineeRelation;
 
-    private boolean wantDebitCard;
-    private boolean wantCheckBook;
+    
+    @Pattern(regexp = "\\d{12}", message = "Aadhaar number must be 12 digits")
+    private String aadhaarNumber;
 
-    @NotBlank(message = "Address is required")
-    private String address;
+    private String documentType;
+    private String documentNumber;
 
-    @NotBlank(message = "City is required")
-    private City city;
+    
+    @NotNull(message = "Account type ID is required")
+    private Long accountTypeId;
 
-    @NotNull(message = "Initial deposit is required")
-    @Min(value = 500, message = "Minimum initial deposit should be ₹500")
-    private Double initialDeposit;
+    
+    private boolean debitCardRequired ;
+    
+    private boolean netBankingEnabled ;
 }
