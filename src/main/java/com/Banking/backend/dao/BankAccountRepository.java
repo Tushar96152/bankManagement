@@ -15,4 +15,9 @@ public interface BankAccountRepository extends CrudRepository<BankAccount,Long>{
 
     Optional<BankAccount> findByAccountNumber(String accountNumber);
 
+    BankAccount findByUserIdAndIsActive(Long userId, boolean b);
+
+    BankAccount findByUserNetIdAndIsActive(String userNetId, boolean isActive);
+
+
 }

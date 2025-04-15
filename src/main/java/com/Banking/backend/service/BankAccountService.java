@@ -11,4 +11,5 @@ public interface BankAccountService {
     String generateUniqueAccountNumber();
     Card generateDebitCard(String accountNumber);
     String generateUniqueUserNetId();
+    ApiResponse<CreateAccountResponse> bankAccountByUserId(Long userId);
 }

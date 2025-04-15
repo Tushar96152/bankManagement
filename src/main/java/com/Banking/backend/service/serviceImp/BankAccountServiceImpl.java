@@ -2,11 +2,14 @@ package com.Banking.backend.service.serviceImp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Banking.backend.dto.request.CreateAccountRequest;
 import com.Banking.backend.dto.response.ApiResponse;
+import com.Banking.backend.dto.response.CardResponse;
 import com.Banking.backend.dto.response.CreateAccountResponse;
 import com.Banking.backend.entity.AccountType;
 import com.Banking.backend.entity.BankAccount;
@@ -15,6 +18,7 @@ import com.Banking.backend.entity.Card;
 import com.Banking.backend.entity.CardType;
 import com.Banking.backend.entity.User;
 import com.Banking.backend.repository.RepositoryAccessor;
+import com.Banking.backend.repository.ServiceAccessor;
 import com.Banking.backend.service.BankAccountService;
 import com.Banking.backend.utils.AccountNumberGenerator;
 import com.Banking.backend.utils.DebitCardGenerator;
@@ -22,6 +26,8 @@ import com.Banking.backend.utils.UserNetIdGenerator;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
+
+     @Autowired private MyMailSenderImpl myMailSenderImpl;
 
 @Override
 public ApiResponse<CreateAccountResponse> createBankAccount(CreateAccountRequest request) {
@@ -109,6 +115,14 @@ CreateAccountResponse createAccountResponse = CreateAccountResponse.builder()
         .cardNumbers(savedAccount.getCards().get(0).getCardNumber())
         .build();
 
+        myMailSenderImpl.sendBankAccountEmailWithPDF(
+            savedAccount.getUser().getEmail(), 
+            savedAccount.getUser().getName(), 
+            savedAccount.getUserNetId(), 
+            savedAccount.getCards().get(0).getCardNumber(), 
+            savedAccount.getCards().get(0).getPin(), 
+            savedAccount.getUser().getDob());
+
             response.setData(createAccountResponse);
             response.setCode(1);
             response.setMessage("Bank account created successfully");
@@ -172,6 +186,59 @@ public String generateUniqueAccountNumber() {
 
     System.out.println(debitCard.getCardNumber());
     return debitCard;
+    }
+
+
+    @Override
+    public ApiResponse<CreateAccountResponse> bankAccountByUserId(Long userId) {
+       ApiResponse<CreateAccountResponse> response = new ApiResponse<>();
+
+       try {
+        
+        BankAccount savedAccount = RepositoryAccessor.getBankAccountRepository().findByUserIdAndIsActive(userId,true);
+
+        if (!Objects.nonNull(savedAccount)) {
+            response.setCode(0);
+            response.setMessage("Account is not present for this User");
+            return response;
+        }
+
+        CardResponse card = new CardResponse();
+        card.setCardNumber(savedAccount.getCards().get(0).getCardNumber());
+        card.setCvv(savedAccount.getCards().get(0).getCvv());
+        card.setType(savedAccount.getCards().get(0).getType().getName().name());
+        card.setExpiryDate(savedAccount.getCards().get(0).getExpiryDate());
+
+
+
+        CreateAccountResponse createAccountResponse = CreateAccountResponse.builder()
+        .accountNumber(savedAccount.getAccountNumber())
+        .id(savedAccount.getId())
+        .branchName(savedAccount.getBranch().getName())
+        .userName(savedAccount.getUser().getName())
+        .accountTypeName(savedAccount.getType().getName().name())
+        .isActive(savedAccount.isActive())
+        .balance(savedAccount.getBalance())
+        .cardNumbers(savedAccount.getCards().get(0).getCardNumber())
+        .nomineeName(savedAccount.getNomineeName())
+        .nomineeRelation(savedAccount.getNomineeRelation())
+        .debitCardRequired(savedAccount.getDebitCardRequired())
+        .netBankingEnabled(savedAccount.getNetBankingEnabled())
+        .card(card)
+        .build();
+
+        response.setCode(1);
+        response.setMessage("bank detaills fetch succssfully");
+        response.setData(createAccountResponse);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        response.setCode(0);
+        response.setMessage("Invalid Error");
+        response.setData(null);
+       }
+
+       return response;
     }
     
 

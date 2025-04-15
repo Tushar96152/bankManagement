@@ -68,6 +68,7 @@ public class BankAccount {
     @Column(name = "net_banking_enabled")
     private Boolean netBankingEnabled ;
 
+    @Column(name = "user_net_id", nullable = false)
     private String userNetId;
 
     @ManyToOne

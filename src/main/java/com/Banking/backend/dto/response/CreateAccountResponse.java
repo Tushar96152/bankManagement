@@ -3,6 +3,7 @@ package com.Banking.backend.dto.response;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.Banking.backend.entity.Card;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,7 +52,7 @@ private Long id;
 
     
     private String cardNumbers;
-
+    private CardResponse card;
     
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
