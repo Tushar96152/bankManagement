@@ -18,7 +18,7 @@ import com.Banking.backend.entity.Card;
 import com.Banking.backend.entity.CardType;
 import com.Banking.backend.entity.User;
 import com.Banking.backend.repository.RepositoryAccessor;
-import com.Banking.backend.repository.ServiceAccessor;
+
 import com.Banking.backend.service.BankAccountService;
 import com.Banking.backend.utils.AccountNumberGenerator;
 import com.Banking.backend.utils.DebitCardGenerator;
@@ -82,6 +82,7 @@ public ApiResponse<CreateAccountResponse> createBankAccount(CreateAccountRequest
         account.setDocumentNumber(request.getDocumentNumber());
         account.setNetBankingEnabled(request.isNetBankingEnabled());
         account.setDebitCardRequired(request.isDebitCardRequired());
+        account.setUserNetPassword("000000");
 
         
         if (Boolean.TRUE.equals(request.isNetBankingEnabled())) {
@@ -119,6 +120,7 @@ CreateAccountResponse createAccountResponse = CreateAccountResponse.builder()
             savedAccount.getUser().getEmail(), 
             savedAccount.getUser().getName(), 
             savedAccount.getUserNetId(), 
+            savedAccount.getUserNetPassword(),
             savedAccount.getCards().get(0).getCardNumber(), 
             savedAccount.getCards().get(0).getPin(), 
             savedAccount.getUser().getDob());

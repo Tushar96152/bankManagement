@@ -17,6 +17,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,6 +72,11 @@ public class BankAccount {
 
     @Column(name = "user_net_id", nullable = false)
     private String userNetId;
+
+    @NotNull(message = "User net password is required")
+    @Pattern(regexp = "^[0-9]{6}$", message = "User net password must be exactly 6 digits")
+    @Column(length = 6, nullable = false) 
+    private String userNetPassword;
 
     @ManyToOne
     @JoinColumn(name = "account_type_id")

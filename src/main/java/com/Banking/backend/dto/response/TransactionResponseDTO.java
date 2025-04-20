@@ -1,5 +1,6 @@
 package com.Banking.backend.dto.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -21,4 +22,14 @@ public class TransactionResponseDTO {
     private LocalDateTime timestamp;
     private String status; 
     private String transactionType; 
+    private String description;
+
+    public TransactionResponseDTO(Long transactionId, BigDecimal amount, LocalDateTime timestamp, String status, String transactionType,String description) {
+        this.transactionId = transactionId;
+        this.amount = amount.doubleValue();
+        this.timestamp = timestamp;
+        this.status = status;
+        this.transactionType = transactionType;
+        this.description = description;
+    }
 }

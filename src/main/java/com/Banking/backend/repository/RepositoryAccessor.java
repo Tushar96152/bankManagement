@@ -9,6 +9,8 @@ import com.Banking.backend.dao.CardRepository;
 import com.Banking.backend.dao.CardTypeRepository;
 import com.Banking.backend.dao.CityRepository;
 import com.Banking.backend.dao.EmployeeRepository;
+import com.Banking.backend.dao.LoanRepaymentRepository;
+import com.Banking.backend.dao.LoanRepository;
 import com.Banking.backend.dao.RoleRepository;
 import com.Banking.backend.dao.TransactionRepository;
 import com.Banking.backend.dao.TransactionTypeRepository;
@@ -30,6 +32,8 @@ public class RepositoryAccessor {
     @Getter private static AccountTypeRepository accountTypeRepository;
     @Getter private static CardTypeRepository cardTypeRepository;
     @Getter private static TransactionTypeRepository transactionTypeRepository;
+    @Getter private static LoanRepository loanRepository;
+    @Getter private static LoanRepaymentRepository loanRepaymentRepository;
 
     public RepositoryAccessor(
         UserRepository userRepository,
@@ -42,7 +46,9 @@ public class RepositoryAccessor {
         TransactionRepository transactionRepository,
         AccountTypeRepository accountTypeRepository,
         CardTypeRepository cardTypeRepository,
-        TransactionTypeRepository transactionTypeRepository
+        TransactionTypeRepository transactionTypeRepository,
+        LoanRepository loanRepository,
+        LoanRepaymentRepository loanRepaymentRepository
     ) {
         RepositoryAccessor.userRepository = userRepository;
         RepositoryAccessor.roleRepository = roleRepository;
@@ -55,6 +61,8 @@ public class RepositoryAccessor {
         RepositoryAccessor.accountTypeRepository = accountTypeRepository;
         RepositoryAccessor.cardTypeRepository = cardTypeRepository;
         RepositoryAccessor.transactionTypeRepository = transactionTypeRepository;
+        RepositoryAccessor.loanRepository = loanRepository;
+        RepositoryAccessor .loanRepaymentRepository = loanRepaymentRepository;
     }
 
 }

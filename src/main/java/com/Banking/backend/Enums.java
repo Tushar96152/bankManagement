@@ -50,6 +50,12 @@ public class Enums {
         }
     }
     
+    public enum LoanStatus {
+        PENDING,
+        APPROVED,
+        DISBURSED,
+        CLOSED;
+    }
 
 
 }

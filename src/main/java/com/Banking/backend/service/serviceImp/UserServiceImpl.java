@@ -103,18 +103,18 @@ public class UserServiceImpl implements UserService {
         User newUser = new User();
 
 
-        if (RepositoryAccessor.getUserRepository()
-                 .existsByPhoneAndIsActive(userRegisterRequest.getPhone(), true)) {
+         // Check if phone number already exists
+         if (RepositoryAccessor.getUserRepository().existsByPhoneAndIsActive(userRegisterRequest.getPhone(), true)) {
             response.setCode(0);
             response.setMessage("Phone number already exists");
             return response;
         }
         
-        if (RepositoryAccessor.getUserRepository()
-        .existsByEmailAndIsActive(userRegisterRequest.getEmail(), true)) {
-                response.setCode(0);
-                response.setMessage("Email already exists");
-                return response;
+        // Check if email already exists
+        if (RepositoryAccessor.getUserRepository().existsByEmailAndIsActive(userRegisterRequest.getEmail(), true)) {
+            response.setCode(0);
+            response.setMessage("Email already exists");
+            return response;
         }
         newUser.setName(userRegisterRequest.getName());
         newUser.setDob(userRegisterRequest.getDob());

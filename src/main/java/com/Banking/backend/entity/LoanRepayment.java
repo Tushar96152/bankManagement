@@ -1,7 +1,7 @@
 package com.Banking.backend.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,25 +19,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transaction {
+public class LoanRepayment {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long repaymentId;
 
-    private BigDecimal amount;
-    private BigDecimal balanceAfter;
-
-    @ManyToOne
-    @JoinColumn(name = "transaction_type_id")
-    private TransactionType type; 
-
-
-
-    private LocalDateTime timestamp;
+    private BigDecimal paymentAmount;
+    private LocalDate paymentDate;
+    private BigDecimal remainingBalance;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    private BankAccount account;
+    @JoinColumn(name = "loan_id")
+    private Loan loan;  
 
-    private String description;
+    private LocalDate createdAt;
 }
