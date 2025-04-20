@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.Banking.backend.security.CustomUserDetailsService;
 import com.Banking.backend.service.BankAccountService;
+import com.Banking.backend.service.BranchService;
+import com.Banking.backend.service.CityService;
 import com.Banking.backend.service.CreditCardService;
 import com.Banking.backend.service.LoanService;
 import com.Banking.backend.service.TransactionService;
@@ -22,6 +24,8 @@ public class ServiceAccessor {
     @Getter private static TransactionService transactionService;
     @Getter private static LoanService loanService;
     @Getter private static CreditCardService creditCardService;
+    @Getter private static CityService cityService;
+    @Getter private static BranchService branchService;
 
             public ServiceAccessor(UserService userService,
             CustomUserDetailsService customUserDetailsService,
@@ -29,7 +33,9 @@ public class ServiceAccessor {
             BankAccountService bankAccountService,
             TransactionService transactionService,
             LoanService loanService,
-            CreditCardService creditCardService
+            CreditCardService creditCardService,
+            CityService cityService,
+            BranchService branchService
             ) {
         ServiceAccessor.userService = userService;
         ServiceAccessor.customUserDetailsService = customUserDetailsService;
@@ -38,5 +44,7 @@ public class ServiceAccessor {
         ServiceAccessor.transactionService = transactionService;
         ServiceAccessor.loanService = loanService;
         ServiceAccessor.creditCardService = creditCardService;
+        ServiceAccessor.cityService = cityService;
+        ServiceAccessor.branchService = branchService;
         }
 }
