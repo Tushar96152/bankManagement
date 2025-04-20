@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Banking.backend.dto.request.AccountLoginRequest;
 import com.Banking.backend.dto.request.CreateAccountRequest;
+import com.Banking.backend.dto.response.AccountLoginResponse;
 import com.Banking.backend.dto.response.ApiResponse;
 import com.Banking.backend.dto.response.CreateAccountResponse;
 
@@ -25,5 +27,11 @@ public class BankAccountController {
     @GetMapping("getById/{id}")
     public ApiResponse<CreateAccountResponse> getUserById(@PathVariable ("id") Long userId){
         return ServiceAccessor.getBankAccountService().bankAccountByUserId(userId);
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<AccountLoginResponse> login(@RequestBody AccountLoginRequest loginRequest)
+    {
+        return ServiceAccessor.getBankAccountService().login(loginRequest);
     }
 }

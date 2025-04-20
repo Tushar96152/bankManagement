@@ -78,9 +78,16 @@ public class BankAccount {
     @Column(length = 6, nullable = false) 
     private String userNetPassword;
 
+    @Column(name = "net_login_password", nullable = false)
+    private String netLoginPassword;
+
     @ManyToOne
     @JoinColumn(name = "account_type_id")
     private AccountType type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
     
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)

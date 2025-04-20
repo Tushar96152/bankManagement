@@ -53,4 +53,7 @@ public class CreateAccountRequest {
     private boolean debitCardRequired ;
     
     private boolean netBankingEnabled ;
+
+    @NotNull(message = "Address details are required")
+    private AddressDTO address;
 }

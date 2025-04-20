@@ -3,11 +3,14 @@ package com.Banking.backend.repository;
 import org.springframework.stereotype.Service;
 
 import com.Banking.backend.dao.AccountTypeRepository;
+import com.Banking.backend.dao.AddressRepository;
 import com.Banking.backend.dao.BankAccountRepository;
 import com.Banking.backend.dao.BranchRepository;
 import com.Banking.backend.dao.CardRepository;
 import com.Banking.backend.dao.CardTypeRepository;
 import com.Banking.backend.dao.CityRepository;
+import com.Banking.backend.dao.CreditCardApplicationRepository;
+import com.Banking.backend.dao.CreditCardRepository;
 import com.Banking.backend.dao.EmployeeRepository;
 import com.Banking.backend.dao.LoanRepaymentRepository;
 import com.Banking.backend.dao.LoanRepository;
@@ -34,6 +37,9 @@ public class RepositoryAccessor {
     @Getter private static TransactionTypeRepository transactionTypeRepository;
     @Getter private static LoanRepository loanRepository;
     @Getter private static LoanRepaymentRepository loanRepaymentRepository;
+    @Getter private static CreditCardRepository creditCardRepository;
+    @Getter private static CreditCardApplicationRepository creditCardApplicationRepository;
+    @Getter private static AddressRepository addressRepository;
 
     public RepositoryAccessor(
         UserRepository userRepository,
@@ -48,7 +54,10 @@ public class RepositoryAccessor {
         CardTypeRepository cardTypeRepository,
         TransactionTypeRepository transactionTypeRepository,
         LoanRepository loanRepository,
-        LoanRepaymentRepository loanRepaymentRepository
+        LoanRepaymentRepository loanRepaymentRepository,
+        CreditCardRepository creditCardRepository,
+        CreditCardApplicationRepository creditCardApplicationRepository,
+        AddressRepository addressRepository
     ) {
         RepositoryAccessor.userRepository = userRepository;
         RepositoryAccessor.roleRepository = roleRepository;
@@ -63,6 +72,9 @@ public class RepositoryAccessor {
         RepositoryAccessor.transactionTypeRepository = transactionTypeRepository;
         RepositoryAccessor.loanRepository = loanRepository;
         RepositoryAccessor .loanRepaymentRepository = loanRepaymentRepository;
+        RepositoryAccessor.creditCardRepository = creditCardRepository;
+        RepositoryAccessor.creditCardApplicationRepository = creditCardApplicationRepository;
+        RepositoryAccessor.addressRepository = addressRepository;
     }
 
 }

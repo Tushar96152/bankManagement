@@ -16,6 +16,7 @@ public class DataSeeder implements CommandLineRunner {
         ServiceAccessor.getGenericService().seedAccountTypes();;
         ServiceAccessor.getGenericService().seedTransactionTypes();
         ServiceAccessor.getGenericService().seedCardTypes();
-
+        ServiceAccessor.getGenericService().seedCreditCards();
+        ServiceAccessor.getGenericService().seedBranches();
     }
 }

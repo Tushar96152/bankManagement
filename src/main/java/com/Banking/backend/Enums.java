@@ -57,5 +57,51 @@ public class Enums {
         CLOSED;
     }
 
+    public enum CreditCardType {
+        SILVER,
+        GOLD,
+        PLATINUM,
+        TITANIUM,
+        CLASSIC,
+        VALUE_PLUS,
+        BLACK,
+        INFINITE,
+        SIGNATURE,
+        ROYALE,
+        IMPERIAL,
+        PREMIER,
+        TRAVEL,
+        SHOPPING,
+        CASHBACK,
+        MOVIE,
+        DINING,
+        ENTERTAINMENT,
+        LIFESTYLE,
+        BUSINESS_BASIC,
+        BUSINESS_PRO,
+        BUSINESS_ELITE,
+        CORPORATE_PLUS,
+        CORPORATE_EXECUTIVE,
+        STUDENT,
+        YOUTH,
+        CAMPUS,
+        GREEN,
+        CHARITY,
+        WOMEN_ELITE
+    }
+
+    public enum ApplicationStatus {
+        PENDING,
+        APPROVED,
+        REJECTED
+    }
+
+    public enum AddressType {
+        HOME,
+        OFFICE,
+        PERMANENT,
+        TEMPORARY
+    }
+    
 
 }

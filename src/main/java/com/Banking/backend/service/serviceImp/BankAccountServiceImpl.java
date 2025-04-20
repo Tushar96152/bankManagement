@@ -3,19 +3,24 @@ package com.Banking.backend.service.serviceImp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Banking.backend.dto.request.AccountLoginRequest;
 import com.Banking.backend.dto.request.CreateAccountRequest;
+import com.Banking.backend.dto.response.AccountLoginResponse;
 import com.Banking.backend.dto.response.ApiResponse;
 import com.Banking.backend.dto.response.CardResponse;
 import com.Banking.backend.dto.response.CreateAccountResponse;
 import com.Banking.backend.entity.AccountType;
+import com.Banking.backend.entity.Address;
 import com.Banking.backend.entity.BankAccount;
 import com.Banking.backend.entity.Branch;
 import com.Banking.backend.entity.Card;
 import com.Banking.backend.entity.CardType;
+import com.Banking.backend.entity.City;
 import com.Banking.backend.entity.User;
 import com.Banking.backend.repository.RepositoryAccessor;
 
@@ -83,7 +88,21 @@ public ApiResponse<CreateAccountResponse> createBankAccount(CreateAccountRequest
         account.setNetBankingEnabled(request.isNetBankingEnabled());
         account.setDebitCardRequired(request.isDebitCardRequired());
         account.setUserNetPassword("000000");
+        account.setNetLoginPassword("000000");
 
+
+        Address address = new Address();
+        address.setHouseNumber(request.getAddress().getHouseNumber());
+        address.setArea(request.getAddress().getArea());
+        address.setLandmark(request.getAddress().getLandmark());
+        address.setPincode(request.getAddress().getPincode());
+
+        Optional<City> city = RepositoryAccessor.getCityRepository().findById(request.getAddress().getCityId());
+
+        address.setCity(city.get());
+
+        RepositoryAccessor.getAddressRepository().save(address);
+        account.setAddress(address);
         
         if (Boolean.TRUE.equals(request.isNetBankingEnabled())) {
             account.setUserNetId(generateUniqueUserNetId());
@@ -121,6 +140,7 @@ CreateAccountResponse createAccountResponse = CreateAccountResponse.builder()
             savedAccount.getUser().getName(), 
             savedAccount.getUserNetId(), 
             savedAccount.getUserNetPassword(),
+            savedAccount.getNetLoginPassword(),
             savedAccount.getCards().get(0).getCardNumber(), 
             savedAccount.getCards().get(0).getPin(), 
             savedAccount.getUser().getDob());
@@ -241,6 +261,43 @@ public String generateUniqueAccountNumber() {
        }
 
        return response;
+    }
+
+
+    @Override
+    public ApiResponse<AccountLoginResponse> login(AccountLoginRequest request) {
+        ApiResponse<AccountLoginResponse> response = new ApiResponse<>();
+        try {
+            
+            BankAccount bankAccount = RepositoryAccessor.getBankAccountRepository().findByUserNetIdAndIsActive(request.getUserId(), true);
+
+            if (bankAccount == null) {
+                response.setCode(0);
+                response.setMessage("Account does not found");
+            }
+
+            if (bankAccount.getUserNetPassword() != request.getPassword()) {
+                response.setCode(0);
+                response.setMessage("Wrong password try again");
+            }
+
+            AccountLoginResponse responseDTO = AccountLoginResponse.builder()
+            .userId(request.getUserId())
+            .build();
+
+            response.setCode(1);
+            response.setMessage("Successfully Login");
+            response.setData(responseDTO);
+
+
+
+        } catch (Exception e) {
+
+            response.setCode(0);
+            response.setMessage("Intenal Server Error");
+            
+        }
+        return response;
     }
     
 

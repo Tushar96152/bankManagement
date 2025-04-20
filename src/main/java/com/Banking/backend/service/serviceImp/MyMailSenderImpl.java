@@ -63,7 +63,7 @@ public class MyMailSenderImpl  implements MyMailSender{
         sendEmail(to, subject, body);
     }
     
-    public File generateSecureAccountDetailsPdf(String name, String netBankingId, String netBankingPassword, String maskedCardNumber, String tempPin, String dobStr) throws Exception {
+    public File generateSecureAccountDetailsPdf(String name, String netBankingId,String netLoginPassword, String netBankingPassword, String maskedCardNumber, String tempPin, String dobStr) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate dob = LocalDate.parse(dobStr, formatter);
         String pdfPassword = dob.format(DateTimeFormatter.ofPattern("ddMMyyyy"));
@@ -92,7 +92,7 @@ public class MyMailSenderImpl  implements MyMailSender{
         addCustomerGreeting(document, name);
         
         // Add account details section
-        addAccountDetailsSection(document, netBankingId, netBankingPassword, maskedCardNumber, tempPin);
+        addAccountDetailsSection(document, netBankingId, netBankingPassword,netLoginPassword, maskedCardNumber, tempPin);
         
         // Security information - without password information
         addSecurityInformation(document);
@@ -202,7 +202,7 @@ private void addCustomerGreeting(Document document, String name) throws Document
     document.add(new Paragraph(" "));
 }
 
-private void addAccountDetailsSection(Document document, String netBankingId, String netBankingPassword, String maskedCardNumber, String tempPin) throws DocumentException {
+private void addAccountDetailsSection(Document document, String netBankingId, String netBankingPassword,String netLoginPassword, String maskedCardNumber, String tempPin) throws DocumentException {
     Font sectionTitleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, new BaseColor(0, 102, 204));
     Font labelFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11);
     Font valueFont = FontFactory.getFont(FontFactory.HELVETICA, 11);
@@ -226,9 +226,11 @@ private void addAccountDetailsSection(Document document, String netBankingId, St
     
     // Add the details rows with consistent styling
     addStyledRow(detailsTable, "NetBanking ID", netBankingId, labelFont, valueFont, headerBgColor, borderColor);
-    addStyledRow(detailsTable, "Temporary Password", netBankingPassword, labelFont, valueFont, headerBgColor, borderColor);
+    addStyledRow(detailsTable, "Temporary Login Password", netLoginPassword, labelFont, valueFont, headerBgColor, borderColor);
+    addStyledRow(detailsTable, "Temporary Transaction Password", netBankingPassword, labelFont, valueFont, headerBgColor, borderColor);
     addStyledRow(detailsTable, "Debit Card Number", maskedCardNumber, labelFont, valueFont, headerBgColor, borderColor);
     addStyledRow(detailsTable, "Temporary Card PIN", tempPin, labelFont, valueFont, headerBgColor, borderColor);
+    
     
     document.add(detailsTable);
     document.add(new Paragraph(" "));
@@ -345,9 +347,9 @@ private void addFooter(Document document) throws DocumentException {
     
 
 
-public void sendBankAccountEmailWithPDF(String to, String name, String netBankingId,String netBankingPassword, String cardNumber, String pin, String dob) throws Exception {
+public void sendBankAccountEmailWithPDF(String to, String name, String netBankingId,String netLoginPassword,String netBankingPassword, String cardNumber, String pin, String dob) throws Exception {
     String maskedCard = "XXXX-XXXX-XXXX-" + cardNumber.substring(cardNumber.length() - 4);
-    File pdfFile = generateSecureAccountDetailsPdf(name, netBankingId,netBankingPassword
+    File pdfFile = generateSecureAccountDetailsPdf(name, netBankingId,netBankingPassword,netLoginPassword
     , maskedCard, pin, dob);
 
     MimeMessage message = mailSender.createMimeMessage();
