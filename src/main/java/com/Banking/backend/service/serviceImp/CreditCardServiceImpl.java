@@ -107,6 +107,34 @@ if (bankAccount == null) {
     return response;
 }
 
+@Override
+public ApiResponse<CreditCardDTO> getCreditCardById(Long id) {
+   
+    ApiResponse<CreditCardDTO> response = new ApiResponse<>();
+
+    try {
+        CreditCard card = RepositoryAccessor.getCreditCardRepository().findById(id).orElse(null);
+
+        CreditCardDTO cardDTO = CreditCardDTO.builder()
+        .id(card.getId())
+        .annualFee(card.getAnnualFee())
+        .creditLimit(card.getAnnualFee())
+        .description(card.getDescription())
+        .name(card.getName())
+        .interestRate(card.getInterestRate())
+        .type(card.getType())
+        .build();
+
+        response.setCode(1);
+        response.setMessage("successfully fetched Card");
+        response.setData(cardDTO);
+    } catch (Exception e) {
+        response.setCode(1);
+        response.setMessage("INTERNAL SERVER ERROR");
+    }
+    return response;
+}
+
     
 
 }

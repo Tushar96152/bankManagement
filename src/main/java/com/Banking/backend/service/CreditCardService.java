@@ -11,5 +11,5 @@ public interface CreditCardService {
 
     ApiResponse<List<CreditCardDTO>> getAllCreditCards();
     ApiResponse<CreditCardApplicationResponseDTO> creditCardApplication(CreditCardRequestDTO requestDTO);
-
+    ApiResponse<CreditCardDTO> getCreditCardById(Long id);
 }

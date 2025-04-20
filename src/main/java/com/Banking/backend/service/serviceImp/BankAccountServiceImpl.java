@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.Banking.backend.dto.request.AccountLoginRequest;
 import com.Banking.backend.dto.request.CreateAccountRequest;
+import com.Banking.backend.dto.request.LoginNetPasswordChange;
+import com.Banking.backend.dto.request.TransactionPasswordChange;
 import com.Banking.backend.dto.response.AccountLoginResponse;
 import com.Banking.backend.dto.response.ApiResponse;
 import com.Banking.backend.dto.response.CardResponse;
@@ -297,6 +299,56 @@ public String generateUniqueAccountNumber() {
             response.setMessage("Intenal Server Error");
             
         }
+        return response;
+    }
+
+
+    @Override
+    public ApiResponse<?> loginPasswordChange(LoginNetPasswordChange request) {
+        ApiResponse<?> response = new ApiResponse<>();
+        try {
+            BankAccount bankAccount = RepositoryAccessor.getBankAccountRepository().findByUserNetIdAndIsActive(request.getUserId(), true);
+
+            if (bankAccount == null) {
+                response.setCode(0);
+                response.setMessage("Account does not found");
+            }
+
+            bankAccount.setNetLoginPassword(request.getNewPassword());
+
+            response.setCode(1);
+            response.setMessage("password changed successfully");
+            response.setData(null);
+        } catch (Exception e) {
+           response.setCode(0);
+           response.setMessage("INTERNAL SERVER ERROR");
+        }
+
+        return response;
+    }
+
+
+    @Override
+    public ApiResponse<?> transactionPasswordChange(TransactionPasswordChange request) {
+        ApiResponse<?> response = new ApiResponse<>();
+        try {
+            BankAccount bankAccount = RepositoryAccessor.getBankAccountRepository().findByUserNetIdAndIsActive(request.getUserId(), true);
+
+            if (bankAccount == null) {
+                response.setCode(0);
+                response.setMessage("Account does not found");
+            }
+
+            bankAccount.setUserNetPassword(request.getNewPassword());
+
+            response.setCode(1);
+            response.setMessage("password changed successfully");
+            response.setData(null);
+        } catch (Exception e) {
+           response.setCode(0);
+           response.setMessage("INTERNAL SERVER ERROR");
+        }
+
         return response;
     }
     

@@ -1,6 +1,7 @@
 package com.Banking.backend.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,8 @@ public class TransactionController {
         return ServiceAccessor.getTransactionService().transferMoney(requestDTO);
     }
     @GetMapping("/history/{userId}")
-    public ApiResponse<TransactionHistoryList> getHistory(@RequestParam("userId") String userNetId){
-        return ServiceAccessor.getTransactionService().history(userNetId);
+    public ApiResponse<TransactionHistoryList> getHistory(@PathVariable String userId){
+        return ServiceAccessor.getTransactionService().history(userId);
     }
 
 }

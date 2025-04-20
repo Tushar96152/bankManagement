@@ -2,7 +2,8 @@ package com.Banking.backend.service;
 
 import com.Banking.backend.dto.request.AccountLoginRequest;
 import com.Banking.backend.dto.request.CreateAccountRequest;
-
+import com.Banking.backend.dto.request.LoginNetPasswordChange;
+import com.Banking.backend.dto.request.TransactionPasswordChange;
 import com.Banking.backend.dto.response.AccountLoginResponse;
 import com.Banking.backend.dto.response.ApiResponse;
 import com.Banking.backend.dto.response.CreateAccountResponse;
@@ -17,4 +18,6 @@ public interface BankAccountService {
     String generateUniqueUserNetId();
     ApiResponse<CreateAccountResponse> bankAccountByUserId(Long userId);
     ApiResponse<AccountLoginResponse> login(AccountLoginRequest request);
+    ApiResponse<?> loginPasswordChange(LoginNetPasswordChange request);
+    ApiResponse<?> transactionPasswordChange(TransactionPasswordChange request);
 }
