@@ -408,7 +408,7 @@ public void sendEmail(String to, String subject, String htmlBody) {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
-        helper.setFrom("tusharkapoor96152@gmail.com"); // ✅ MUST MATCH your SMTP username
+        helper.setFrom("official@techcode.cfd"); // ✅ MUST MATCH your SMTP username
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(htmlBody, true); // true = HTML content

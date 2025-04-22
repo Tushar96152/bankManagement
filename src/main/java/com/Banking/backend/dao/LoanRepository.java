@@ -12,6 +12,8 @@ public interface LoanRepository  extends CrudRepository<Loan,Long>{
    
     List<Loan> findByUser_Id(Long userId);
 
+    // long countByStatus(String string);
+
 
 
 }
