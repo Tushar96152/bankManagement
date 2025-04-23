@@ -1,7 +1,14 @@
 package com.Banking.backend.service.serviceImp;
 
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import org.springframework.stereotype.Service;
 
+import com.Banking.backend.Enums.ApplicationStatus;
+import com.Banking.backend.Enums.LoanStatus;
 import com.Banking.backend.dto.response.ApiResponse;
 import com.Banking.backend.dto.response.DashboardStatsDTO;
 import com.Banking.backend.repository.RepositoryAccessor;
@@ -10,19 +17,42 @@ import com.Banking.backend.service.ManagerService;
 @Service
 public class ManagerServiceImpl implements ManagerService {
 
-    // @Override
-    // public ApiResponse<DashboardStatsDTO> getDashboardStats() {
-    //     ApiResponse<DashboardStatsDTO> response = new ApiResponse<>();
-    //     try {
+    @Override
+    public ApiResponse<DashboardStatsDTO> getDashboardStats() {
+        ApiResponse<DashboardStatsDTO> response = new ApiResponse<>();
+        try {
             
-    //         long totalCustomers = RepositoryAccessor.getUserRepository().countByRole(1l);
-    //         long pandingLoans = RepositoryAccessor.getLoanRepository().countByStatus("PANDING");
+            long totalCustomers = RepositoryAccessor.getUserRepository().countByRoleId(1l);
+            long pandingLoans = RepositoryAccessor.getLoanRepository().countByStatus(LoanStatus.PENDING);
+            long approvedLoans = RepositoryAccessor.getLoanRepository().countByStatus(LoanStatus.APPROVED);
+            long pandingCreditCard = RepositoryAccessor.getCreditCardApplicationRepository().countByStatus(ApplicationStatus.PENDING);
+            long approvedCreditCard = RepositoryAccessor.getCreditCardApplicationRepository().countByStatus(ApplicationStatus.APPROVED);
+            long totalTransaction = RepositoryAccessor.getTransactionRepository().count();
+            LocalDateTime startOfDay = LocalDate.now().atStartOfDay(); // 2025-04-23T00:00
+                LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX); // 2025-04-23T23:59:59.999999999
 
+                long totalTransactionToday = RepositoryAccessor.getTransactionRepository()
+                        .countByTimestampBetween(startOfDay, endOfDay);
 
-    //     } catch (Exception e) {
-    //         // TODO: handle exception
-    //     }
-    //    return response;
-    // }
+            response.setCode(1);
+            response.setMessage("succsssfully get detilas");
+
+            DashboardStatsDTO dashboardStatsDTO = DashboardStatsDTO.builder()
+            .totalCustomers(totalCustomers)
+            .pendingLoans(pandingLoans)
+            .approvedLoans(approvedLoans)
+            .pendingCreditCards(pandingCreditCard)
+            .approvedCreditCards(approvedCreditCard)
+            .totoalTransactions(totalTransaction)
+            .totalTransactionsToday(totalTransactionToday)
+            .build();
+            response.setData(dashboardStatsDTO);
+
+        } catch (Exception e) {
+            response.setCode(0);
+            response.setMessage("INTERNAL SERVER ERROR");
+        }
+       return response;
+    }
 
 }

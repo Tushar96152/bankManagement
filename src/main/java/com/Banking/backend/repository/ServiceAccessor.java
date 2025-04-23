@@ -9,6 +9,7 @@ import com.Banking.backend.service.BranchService;
 import com.Banking.backend.service.CityService;
 import com.Banking.backend.service.CreditCardService;
 import com.Banking.backend.service.LoanService;
+import com.Banking.backend.service.ManagerService;
 import com.Banking.backend.service.TransactionService;
 import com.Banking.backend.service.UserService;
 import com.Banking.backend.service.serviceImp.GenericService;
@@ -26,6 +27,7 @@ public class ServiceAccessor {
     @Getter private static CreditCardService creditCardService;
     @Getter private static CityService cityService;
     @Getter private static BranchService branchService;
+    @Getter private static ManagerService managerService;
 
             public ServiceAccessor(UserService userService,
             CustomUserDetailsService customUserDetailsService,
@@ -35,7 +37,8 @@ public class ServiceAccessor {
             LoanService loanService,
             CreditCardService creditCardService,
             CityService cityService,
-            BranchService branchService
+            BranchService branchService,
+            ManagerService managerService
             ) {
         ServiceAccessor.userService = userService;
         ServiceAccessor.customUserDetailsService = customUserDetailsService;
@@ -46,5 +49,6 @@ public class ServiceAccessor {
         ServiceAccessor.creditCardService = creditCardService;
         ServiceAccessor.cityService = cityService;
         ServiceAccessor.branchService = branchService;
+        ServiceAccessor.managerService = managerService;
         }
 }

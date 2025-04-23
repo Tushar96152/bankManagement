@@ -37,7 +37,7 @@ public class BankAccountController {
     {
         return ServiceAccessor.getBankAccountService().login(loginRequest);
     }
-    @PutMapping("l/ogin-password-change")
+    @PutMapping("/login-password-change")
     public ApiResponse<?> loginPasswordChange(@RequestBody LoginNetPasswordChange request){
         return ServiceAccessor.getBankAccountService().loginPasswordChange(request);
     }

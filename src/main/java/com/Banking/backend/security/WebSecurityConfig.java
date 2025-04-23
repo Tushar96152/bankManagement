@@ -42,27 +42,27 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authProvider)
-            throws Exception {
-        http.cors()
-                .configurationSource(corsConfigurationSource())
-                .and()
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/user/login","/user/register", "/swagger-ui/**", "/v3/api-docs/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authProvider)
-                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authProvider) throws Exception {
+    http
+        .cors()
+            .configurationSource(corsConfigurationSource())
+        .and()
+        .csrf()
+            .disable()
+        .authorizeHttpRequests()
+            .requestMatchers("/user/login", "/user/register", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+            .requestMatchers("/manager/**").hasRole("MANAGER")
+            .anyRequest().authenticated()
+        .and()
+        .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authenticationProvider(authProvider)
+        .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+}
+
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {

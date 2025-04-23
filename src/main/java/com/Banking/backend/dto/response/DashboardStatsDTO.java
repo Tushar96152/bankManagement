@@ -18,5 +18,6 @@ public class DashboardStatsDTO {
     private long approvedLoans;
     private long pendingCreditCards;
     private long approvedCreditCards;
+    private long totoalTransactions;
     private long totalTransactionsToday;
 }

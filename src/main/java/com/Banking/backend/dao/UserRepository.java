@@ -16,7 +16,9 @@ public interface UserRepository extends CrudRepository<User,Long>{
 
     boolean existsByEmailAndIsActive(String email, boolean b);
 
-    // long countByRole(long l);
+
+
+    long countByRoleId(long l);
 
 
 

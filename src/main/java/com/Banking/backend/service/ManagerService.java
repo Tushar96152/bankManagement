@@ -5,6 +5,6 @@ import com.Banking.backend.dto.response.DashboardStatsDTO;
 
 public interface ManagerService {
 
-     // ApiResponse<DashboardStatsDTO> getDashboardStats();
+     ApiResponse<DashboardStatsDTO> getDashboardStats();
 
 }
