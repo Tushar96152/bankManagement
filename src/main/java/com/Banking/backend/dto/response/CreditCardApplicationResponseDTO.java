@@ -1,6 +1,8 @@
 package com.Banking.backend.dto.response;
 
 
+import com.Banking.backend.Enums.ApplicationStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +20,5 @@ public class CreditCardApplicationResponseDTO {
     private Long applicationId;  // The ID of the credit card application
     private String cardType;  // The type of the card (e.g., SILVER, GOLD)
     private double annualIncome;  // The annual income of the applicant
-    private String status; 
+    private ApplicationStatus status; 
 }

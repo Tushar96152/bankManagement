@@ -469,4 +469,42 @@ public void sendWithdrawalNotification(BankAccount bankAccount, BigDecimal withd
     sendEmail(userEmail, subject, body);
 }
 
+public void sendLoanApprovalNotification(BankAccount bankAccount, BigDecimal loanAmount) {
+    String userEmail = bankAccount.getUser().getEmail();  // Assuming BankAccount has a userEmail field
+    String subject = "Loan Approved - TechCode Bank";
+    String body = "<html><body>"
+            + "Dear " + bankAccount.getUser().getName() + ",<br><br>"
+            + "We are pleased to inform you that your loan application has been <strong>approved</strong>!<br><br>"
+            + "A loan amount of <strong>" + loanAmount + "</strong> has been granted to you. Please find the details of your loan below:<br><br>"
+            + "<strong>Loan Amount:</strong> " + loanAmount + "<br>"
+            + "<strong>Loan Status:</strong> Approved<br>"
+            + "<strong>Transaction Date:</strong> " + LocalDateTime.now() + "<br><br>"
+            + "Thank you for choosing TechCode Bank. We are here to support your financial needs.<br><br>"
+            + "Warm regards,<br>"
+            + "TechCode Bank Team"
+            + "</body></html>";
+
+    sendEmail(userEmail, subject, body);
+}
+
+public void sendLoanDisbursementNotification(BankAccount bankAccount, BigDecimal loanAmount, BigDecimal newBalance, Long transactionId) {
+    String userEmail = bankAccount.getUser().getEmail();  // Assuming BankAccount has a userEmail field
+    String subject = "Loan Disbursement - TechCode Bank";
+    String body = "<html><body>"
+            + "Dear " + bankAccount.getUser().getName() + ",<br><br>"
+            + "We are excited to inform you that your loan of <strong>" + loanAmount + "</strong> has been successfully disbursed to your account.<br><br>"
+            + "The disbursed amount has been credited to your account. Below are the details:<br><br>"
+            + "<strong>Loan Amount:</strong> " + loanAmount + "<br>"
+            + "<strong>New Balance:</strong> " + newBalance + "<br>"
+            + "<strong>Transaction ID:</strong> " + transactionId + "<br>"
+            + "<strong>Transaction Date:</strong> " + LocalDateTime.now() + "<br><br>"
+            + "Thank you for banking with us. We look forward to supporting you on your financial journey.<br><br>"
+            + "Warm regards,<br>"
+            + "TechCode Bank Team"
+            + "</body></html>";
+
+    sendEmail(userEmail, subject, body);
+}
+
+
 }

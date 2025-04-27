@@ -89,7 +89,7 @@ if (bankAccount == null) {
         .applicationId(application.getId())
         .cardType(application.getCreditCard().getType().name())
         .annualIncome(application.getAnnualIncome())
-        .status(application.getStatus().name())
+        .status(application.getStatus())
         .build();
 
 

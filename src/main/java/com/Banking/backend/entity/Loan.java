@@ -2,6 +2,7 @@ package com.Banking.backend.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -59,5 +60,15 @@ public class Loan {
 
     @UpdateTimestamp
     private LocalDate updatedAt;
+
+    public void setApprovedDate(LocalDate now) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setApprovedDate'");
+    }
+
+    public void setDisbursementDate(LocalDateTime now) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setDisbursementDate'");
+    }
 
 }
