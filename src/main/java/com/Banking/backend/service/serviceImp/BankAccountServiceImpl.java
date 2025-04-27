@@ -54,6 +54,14 @@ public ApiResponse<CreateAccountResponse> createBankAccount(CreateAccountRequest
             return response;
         }
 
+        BankAccount bankAccount = RepositoryAccessor.getBankAccountRepository().findByUserIdAndIsActive(user.getId(), true);
+
+        if (bankAccount!= null) {
+            response.setMessage("Bank account already exists.");
+            response.setCode(0);
+            return response;
+        }
+
        
         Branch branch = RepositoryAccessor.getBranchRepository()
                             .findById(request.getBranchId())
