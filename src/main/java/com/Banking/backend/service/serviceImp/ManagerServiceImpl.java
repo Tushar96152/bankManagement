@@ -4,13 +4,20 @@ package com.Banking.backend.service.serviceImp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.Banking.backend.Enums.ApplicationStatus;
 import com.Banking.backend.Enums.LoanStatus;
+import com.Banking.backend.dto.request.UserRegisterRequest;
 import com.Banking.backend.dto.response.ApiResponse;
 import com.Banking.backend.dto.response.DashboardStatsDTO;
+import com.Banking.backend.dto.response.LoanResponseDTO;
+import com.Banking.backend.dto.response.UserResponse;
+import com.Banking.backend.dto.response.UsersList;
+import com.Banking.backend.entity.User;
 import com.Banking.backend.repository.RepositoryAccessor;
 import com.Banking.backend.service.ManagerService;
 
@@ -53,6 +60,46 @@ public class ManagerServiceImpl implements ManagerService {
             response.setMessage("INTERNAL SERVER ERROR");
         }
        return response;
+    }
+@Override
+public ApiResponse<UserResponse> getAllUsers() {
+    ApiResponse<UserResponse> response = new ApiResponse<>();
+    try {
+        // // Fetch all users with role 'CUSTOMER' (assuming role id = 1 for customer)
+        // List<User> users = (List<User>) RepositoryAccessor.getUserRepository().findAll();
+
+
+        // // Convert entities to DTOs if needed (assuming you have a UserDTO and UserResponse class)
+        // List<UserResponse> userDTOs = users.stream().map(user -> UserResponse.builder()
+        //         .id(user.getId())
+
+        //         .build())
+        //     .collect(Collectors.toList());
+
+    
+
+
+        // response.setCode(1);
+        // response.setMessage("Successfully fetched all users");
+        // response.setData(userResponse);
+    } catch (Exception e) {
+        response.setCode(0);
+        response.setMessage("Failed to fetch users: " + e.getMessage());
+    }
+
+    return response;
+}
+
+    @Override
+    public ApiResponse<UserResponse> addUser(UserRegisterRequest request) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addUser'");
+    }
+
+    @Override
+    public ApiResponse<LoanResponseDTO> getAllLoans() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAllLoans'");
     }
 
 }

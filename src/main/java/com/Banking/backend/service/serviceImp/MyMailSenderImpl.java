@@ -20,9 +20,14 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
+
+import com.itextpdf.text.Image;
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -123,9 +128,13 @@ private void createHeader(Document document) throws DocumentException, IOExcepti
     float[] columnWidths = {1f, 2f};
     headerTable.setWidths(columnWidths);
     
-    // Add logo
-    String logoPath = getClass().getClassLoader().getResource("images/techcodelogo.png").getPath();
-    Image logo = Image.getInstance(logoPath);
+    // Add logo code change for server 
+        InputStream logoStream = getClass().getClassLoader().getResourceAsStream("images/techcodelogo.png");
+        if (logoStream == null) {
+            throw new RuntimeException("Logo image not found!");
+        }
+        Image logo = Image.getInstance(IOUtils.toByteArray(logoStream));
+        
     logo.scaleToFit(120, 60);
     
     PdfPCell logoCell = new PdfPCell();
