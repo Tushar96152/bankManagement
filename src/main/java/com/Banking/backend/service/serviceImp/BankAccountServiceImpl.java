@@ -323,6 +323,7 @@ public String generateUniqueAccountNumber() {
             }
 
             bankAccount.setNetLoginPassword(request.getNewPassword());
+            RepositoryAccessor.getBankAccountRepository().save(bankAccount);
 
             response.setCode(1);
             response.setMessage("password changed successfully");
@@ -348,6 +349,7 @@ public String generateUniqueAccountNumber() {
             }
 
             bankAccount.setUserNetPassword(request.getNewPassword());
+            RepositoryAccessor.getBankAccountRepository().save(bankAccount);
 
             response.setCode(1);
             response.setMessage("password changed successfully");
