@@ -180,6 +180,7 @@ public ApiResponse<?> statusChangeLoan(StatusChangeLoanDTO request) {
       Loan loan = RepositoryAccessor.getLoanRepository().findById(request.getId()).orElse(null); 
 
      
+    System.out.println(request.getId());
 
       if (loan == null) {
         response.setCode(0);
@@ -203,7 +204,8 @@ public ApiResponse<?> statusChangeLoan(StatusChangeLoanDTO request) {
 
    } catch (Exception e) {
         response.setCode(0);
-        response.setMessage("Internal Server Error");
+        e.printStackTrace();
+        response.setMessage("Internal Server Error ");
    }
    return response;
 }

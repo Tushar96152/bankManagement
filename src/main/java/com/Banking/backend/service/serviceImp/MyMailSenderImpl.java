@@ -42,7 +42,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import com.Banking.backend.Enums.LoanStatus;
 import com.Banking.backend.entity.BankAccount;
+import com.Banking.backend.entity.Loan;
 import com.Banking.backend.service.MyMailSender;
 
 @Component
@@ -479,6 +481,7 @@ public void sendLoanApprovalNotification(BankAccount bankAccount, BigDecimal loa
             + "<strong>Loan Amount:</strong> " + loanAmount + "<br>"
             + "<strong>Loan Status:</strong> Approved<br>"
             + "<strong>Transaction Date:</strong> " + LocalDateTime.now() + "<br><br>"
+            + "The loan amount will be disbursed to your account within the next <strong>15 minutes</strong>.<br><br>"
             + "Thank you for choosing TechCode Bank. We are here to support your financial needs.<br><br>"
             + "Warm regards,<br>"
             + "TechCode Bank Team"
@@ -486,6 +489,7 @@ public void sendLoanApprovalNotification(BankAccount bankAccount, BigDecimal loa
 
     sendEmail(userEmail, subject, body);
 }
+
 
 public void sendLoanDisbursementNotification(BankAccount bankAccount, BigDecimal loanAmount, BigDecimal newBalance, Long transactionId) {
     String userEmail = bankAccount.getUser().getEmail();  // Assuming BankAccount has a userEmail field
@@ -506,5 +510,62 @@ public void sendLoanDisbursementNotification(BankAccount bankAccount, BigDecimal
     sendEmail(userEmail, subject, body);
 }
 
+public void sendLoanApplicationNotification(BankAccount bankAccount, BigDecimal loanAmount) {
+    String userEmail = bankAccount.getUser().getEmail();
+    String subject = "Loan Application Received - TechCode Bank";
+    String body = "<html><body>"
+            + "Dear " + bankAccount.getUser().getName() + ",<br><br>"
+            + "We have successfully received your loan application.<br><br>"
+            + "Here are the details of your application:<br><br>"
+            + "<strong>Requested Loan Amount:</strong> " + loanAmount + "<br>"
+            + "<strong>Application Status:</strong> Pending Review<br>"
+            + "<strong>Application Date:</strong> " + LocalDateTime.now() + "<br><br>"
+            + "Our team will carefully review your application and get back to you shortly.<br><br>"
+            + "Thank you for trusting TechCode Bank with your financial goals.<br><br>"
+            + "Best regards,<br>"
+            + "TechCode Bank Team"
+            + "</body></html>";
 
+    sendEmail(userEmail, subject, body);
+}
+public void sendRepaymentNotification(Loan loan) {
+    String userEmail = loan.getUser().getEmail();
+    String userName = loan.getUser().getName();
+    String subject = "Loan Repayment Confirmation - TechCode Bank";
+
+    String body = "<html><body>"
+            + "Dear " + userName + ",<br><br>"
+            + "We have received your loan repayment successfully.<br><br>"
+            + "Here are the updated details of your loan:<br><br>"
+            + "<strong>Loan ID:</strong> " + loan.getLoanId() + "<br>"
+            + "<strong>Remaining Balance:</strong> " + loan.getLoanAmount() + "<br>"
+            + "<strong>Loan Status:</strong> " + loan.getStatus() + "<br>"
+            + "<strong>Repayment Date:</strong> " + LocalDateTime.now() + "<br><br>";
+
+    if (loan.getStatus() == LoanStatus.CLOSED) {
+        body += "<span style='color:green;'><strong>Congratulations! Your loan has been fully repaid and is now closed.</strong></span><br><br>";
+    }
+
+    body += "Thank you for being a responsible customer and choosing TechCode Bank.<br><br>"
+            + "Best regards,<br>"
+            + "TechCode Bank Team"
+            + "</body></html>";
+
+    sendEmail(userEmail, subject, body);
+}
+public void sendOTPEmail(String userEmail, String userName, String otp) {
+    String subject = "Your OTP Code - TechCode Bank";
+
+    String body = "<html><body>"
+            + "Dear " + userName + ",<br><br>"
+            + "Your One-Time Password (OTP) for verification is:<br><br>"
+            + "<h2 style='color:#2E86C1;'>" + otp + "</h2><br>"
+            + "This OTP is valid for the next 10 minutes. Please do not share it with anyone.<br><br>"
+            + "If you did not request this OTP, please contact our support immediately.<br><br>"
+            + "Best regards,<br>"
+            + "<strong>TechCode Bank Team</strong>"
+            + "</body></html>";
+
+    sendEmail(userEmail, subject, body);
+}
 }

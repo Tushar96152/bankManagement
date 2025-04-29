@@ -284,11 +284,13 @@ public String generateUniqueAccountNumber() {
             if (bankAccount == null) {
                 response.setCode(0);
                 response.setMessage("Account does not found");
+                return response;
             }
 
             if (bankAccount.getUserNetPassword() != request.getPassword()) {
                 response.setCode(0);
                 response.setMessage("Wrong password try again");
+                return response;
             }
 
             AccountLoginResponse responseDTO = AccountLoginResponse.builder()
@@ -352,7 +354,7 @@ public String generateUniqueAccountNumber() {
             RepositoryAccessor.getBankAccountRepository().save(bankAccount);
 
             response.setCode(1);
-            response.setMessage("password changed successfully");
+            response.setMessage("password changed successfully");   
             response.setData(null);
         } catch (Exception e) {
            response.setCode(0);

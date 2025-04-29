@@ -46,7 +46,8 @@ public class Loan {
     private LoanStatus status;  // Status of the loan (Pending, Approved, Disbursed, Closed)
     private BigDecimal approvedAmount;
     private Integer approvedTenure;
-    private LocalDate disbursementDate;  // Date when the loan is disbursed
+    private LocalDateTime disbursementDate;  // already present ✅
+    private LocalDate approvedDate;   // Date when the loan is disbursed
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -60,15 +61,5 @@ public class Loan {
 
     @UpdateTimestamp
     private LocalDate updatedAt;
-
-    public void setApprovedDate(LocalDate now) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setApprovedDate'");
-    }
-
-    public void setDisbursementDate(LocalDateTime now) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setDisbursementDate'");
-    }
 
 }

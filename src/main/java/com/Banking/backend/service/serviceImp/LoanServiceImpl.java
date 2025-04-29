@@ -63,7 +63,7 @@ public class LoanServiceImpl implements LoanService{
             response.setData(responseDTO);
 
             // Send email notification (optional)
-            // myMailSenderImpl.sendLoanApplicationNotification(savedLoan);
+            myMailSenderImpl.sendLoanApplicationNotification(bankAccount, loanApplicationRequestDTO.getLoanAmount());
 
         } catch (Exception e) {
             response.setCode(0);
@@ -106,7 +106,6 @@ public ApiResponse<List<LoanListResponseDTO>> getLoansByUserId(String userId) {
                         .loanId(loan.getLoanId())
                         .loanAmount(loan.getLoanAmount())
                         .createdAt(loan.getCreatedAt())
-                        .disbursementDate(loan.getDisbursementDate())
                         .status(loan.getStatus())
                         .build())
                 .collect(Collectors.toList());
@@ -170,7 +169,7 @@ public ApiResponse<List<LoanListResponseDTO>> getLoansByUserId(String userId) {
             response.setData(responseDTO);
 
             // Send email notification (optional)
-            // myMailSenderImpl.sendRepaymentNotification(updatedLoan);
+            myMailSenderImpl.sendRepaymentNotification(updatedLoan);
 
         } catch (Exception e) {
             response.setCode(0);

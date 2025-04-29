@@ -1,5 +1,7 @@
 package com.Banking.backend.service.serviceImp;
 
+import com.Banking.backend.dto.request.LoginNetPasswordChange;
+import com.Banking.backend.dto.request.UserLoginPasswordChange;
 import com.Banking.backend.dto.request.UserLoginRequest;
 import com.Banking.backend.dto.request.UserRegisterRequest;
 import com.Banking.backend.dto.response.ApiResponse;
@@ -190,6 +192,33 @@ public class UserServiceImpl implements UserService {
                     "[UserServiceImpl >> getUserById] Error occurred while fetching user by ID: {}", userId, e);
             response.setCode(0);
             response.setMessage("Error while fetching user.");
+        }
+
+        return response;
+    }
+
+    @Override
+    public ApiResponse<?> passwordChange(UserLoginPasswordChange request) {
+        ApiResponse<?> response = new ApiResponse<>();
+
+        try {
+            User user = RepositoryAccessor.getUserRepository().findByIdAndIsActive(request.getUserId(), true).orElse(null);
+            if (user == null) {
+                response.setCode(0);
+                response.setMessage("User Not Found");
+                return response;
+            }
+
+            user.setPassword(request.getPassword());
+            RepositoryAccessor.getUserRepository().save(user);
+            response.setCode(1);
+            response.setMessage("Successfully changed.");
+
+        } catch (Exception e) {
+            LOGGER.error(
+                "[UserServiceImpl >> getUserById] Error occurred while fetching user by ID: {}", request.getUserId(), e);
+        response.setCode(0);
+        response.setMessage("Error while fetching user.");
         }
 
         return response;
