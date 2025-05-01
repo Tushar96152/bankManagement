@@ -44,7 +44,7 @@ public ApiResponse<TransactionResponseDTO> depositeMoney(@RequestBody Transactio
             return response;
         }
 
-        if (savAccount.getUserNetPassword() == transactionRequestDTO.getUserNetPassword()) {
+        if (!savAccount.getUserNetPassword().equals(transactionRequestDTO.getUserNetPassword())) {
             response.setCode(0);
             response.setMessage("wrong password");
             return response;
@@ -116,7 +116,7 @@ public ApiResponse<TransactionResponseDTO> withDrawMoney(@RequestBody Transactio
             return response;
         }
 
-        if (savAccount.getUserNetPassword() == transactionRequestDTO.getUserNetPassword()) {
+        if (!savAccount.getUserNetPassword().equals(transactionRequestDTO.getUserNetPassword())) {
             response.setCode(0);
             response.setMessage("wrong password");
             return response;
@@ -213,6 +213,12 @@ public ApiResponse<TransactionResponseDTO> transferMoney(TransferMoneyRequestDTO
         if (senderAccount.getBalance().compareTo(transferAmount) < 0) {
             response.setCode(0);
             response.setMessage("Insufficient balance in sender's account");
+            return response;
+        }
+
+        if (!senderAccount.getUserNetId().equals(transferMoneyRequestDTO.getUserNetPassword())) {
+            response.setCode(0);
+            response.setMessage("Wrong password");
             return response;
         }
 
