@@ -216,7 +216,7 @@ public class UserServiceImpl implements UserService {
 
         } catch (Exception e) {
             LOGGER.error(
-                "[UserServiceImpl >> getUserById] Error occurred while fetching user by ID: {}", request.getUserId(), e);
+                "[UserServiceImpl >> getUserById] Error occurred while fetching user by ID: {}", request.getGmail(), e);
         response.setCode(0);
         response.setMessage("Error while fetching user.");
         }
