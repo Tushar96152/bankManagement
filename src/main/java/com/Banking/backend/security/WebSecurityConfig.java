@@ -50,7 +50,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, Authentication
         .csrf()
             .disable()
         .authorizeHttpRequests()
-            .requestMatchers("/user/login", "/user/register", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+            .requestMatchers("/user/login", "/user/register","/user/password-change", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
             .requestMatchers("/manager/**").hasRole("MANAGER")
             .anyRequest().authenticated()
         .and()
