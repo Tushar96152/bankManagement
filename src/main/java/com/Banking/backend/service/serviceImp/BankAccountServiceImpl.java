@@ -286,13 +286,11 @@ public String generateUniqueAccountNumber() {
                 response.setMessage("Account does not found");
                 return response;
             }
-
-            if (bankAccount.getUserNetPassword() != request.getPassword()) {
+            if (!bankAccount.getUserNetPassword().equals(request.getPassword())) {
                 response.setCode(0);
-                response.setMessage("Wrong password try again");
+                response.setMessage("Wrong password, try again");
                 return response;
             }
-
             AccountLoginResponse responseDTO = AccountLoginResponse.builder()
             .userId(request.getUserId())
             .build();
