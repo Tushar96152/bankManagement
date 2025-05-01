@@ -202,7 +202,7 @@ public class UserServiceImpl implements UserService {
         ApiResponse<?> response = new ApiResponse<>();
 
         try {
-            User user = RepositoryAccessor.getUserRepository().findByIdAndIsActive(request.getUserId(), true).orElse(null);
+            User user = RepositoryAccessor.getUserRepository().findByEmailIgnoreCase(request.getGmail()).orElse(null);
             if (user == null) {
                 response.setCode(0);
                 response.setMessage("User Not Found");

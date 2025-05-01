@@ -13,7 +13,7 @@ import lombok.Setter;
 @Builder
 public class UserLoginPasswordChange {
 
-    private Long userId;
+    private String gmail;
     private String password;
 
 }
