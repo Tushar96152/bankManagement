@@ -81,6 +81,7 @@ if (bankAccount == null) {
        application.setCreditCard(savedCreditCard.get());
        application.setAnnualIncome(requestDTO.getAnnualIncome());
        application.setStatus(ApplicationStatus.PENDING);
+       application.setUser(bankAccount.getUser());
 
         // Step 4: Save the application to the database
         application = RepositoryAccessor.getCreditCardApplicationRepository().save(application);
