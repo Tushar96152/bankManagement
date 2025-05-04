@@ -76,7 +76,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, Authentication
     "http://localhost:3000",
     "http://localhost:5173",
     "https://api.techcode.cfd",
-    "https://techcode.cfd" // ✅ add this
+    "https://techcode.cfd",
+    "http://3.110.164.139"
 ));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -95,7 +96,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, Authentication
             "http://localhost:3000",
             "http://localhost:5173",
             "https://techcode.cfd",
-            "https://api.techcode.cfd"
+            "https://api.techcode.cfd",
+             "http://3.110.164.139"
         )        
                 .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD")
                 .allowedHeaders("*")
