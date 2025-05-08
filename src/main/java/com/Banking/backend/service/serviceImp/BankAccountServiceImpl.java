@@ -222,11 +222,10 @@ public String generateUniqueAccountNumber() {
 
 
     @Override
-    public ApiResponse<CreateAccountResponse> bankAccountByUserId(Long userId) {
+    public ApiResponse<CreateAccountResponse> bankAccountByUserId(String userNetId) {
        ApiResponse<CreateAccountResponse> response = new ApiResponse<>();
 
        try {
-        String userNetId = String.valueOf(userId);
 
         BankAccount savedAccount = RepositoryAccessor.getBankAccountRepository().findByUserNetIdAndIsActive(userNetId,true);
 

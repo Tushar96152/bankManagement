@@ -28,7 +28,7 @@ public class BankAccountController {
         return ServiceAccessor.getBankAccountService().createBankAccount(request);
     }
     @GetMapping("getById/{id}")
-    public ApiResponse<CreateAccountResponse> getUserById(@PathVariable ("id") Long userId){
+    public ApiResponse<CreateAccountResponse> getUserById(@PathVariable ("id") String userId){
         return ServiceAccessor.getBankAccountService().bankAccountByUserId(userId);
     }
 
