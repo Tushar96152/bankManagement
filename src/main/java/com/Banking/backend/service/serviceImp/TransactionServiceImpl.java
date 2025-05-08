@@ -216,7 +216,7 @@ public ApiResponse<TransactionResponseDTO> transferMoney(TransferMoneyRequestDTO
             return response;
         }
 
-        if (!senderAccount.getUserNetId().equals(transferMoneyRequestDTO.getUserNetPassword())) {
+        if (!senderAccount.getUserNetPassword().equals(transferMoneyRequestDTO.getUserNetPassword())) {
             response.setCode(0);
             response.setMessage("Wrong password");
             return response;

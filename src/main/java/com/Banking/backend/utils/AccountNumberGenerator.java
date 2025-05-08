@@ -8,9 +8,7 @@ public class AccountNumberGenerator {
 
     
     public static String generate() {
-        
         String randomDigits = String.format("%04d", new Random().nextInt(10000));
-
-        return BANK_CODE + "-" + BRANCH_CODE + "-" + randomDigits;
+        return BANK_CODE + BRANCH_CODE + randomDigits;
     }
 }
