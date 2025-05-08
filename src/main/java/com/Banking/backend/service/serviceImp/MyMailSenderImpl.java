@@ -472,7 +472,7 @@ public void sendWithdrawalNotification(BankAccount bankAccount, BigDecimal withd
 }
 
 public void sendLoanApprovalNotification(BankAccount bankAccount, BigDecimal loanAmount) {
-    String userEmail = bankAccount.getUser().getEmail();  // Assuming BankAccount has a userEmail field
+    String userEmail = bankAccount.getUser().getEmail();  
     String subject = "Loan Approved - TechCode Bank";
     String body = "<html><body>"
             + "Dear " + bankAccount.getUser().getName() + ",<br><br>"
@@ -492,7 +492,7 @@ public void sendLoanApprovalNotification(BankAccount bankAccount, BigDecimal loa
 
 
 public void sendLoanDisbursementNotification(BankAccount bankAccount, BigDecimal loanAmount, BigDecimal newBalance, Long transactionId) {
-    String userEmail = bankAccount.getUser().getEmail();  // Assuming BankAccount has a userEmail field
+    String userEmail = bankAccount.getUser().getEmail(); 
     String subject = "Loan Disbursement - TechCode Bank";
     String body = "<html><body>"
             + "Dear " + bankAccount.getUser().getName() + ",<br><br>"

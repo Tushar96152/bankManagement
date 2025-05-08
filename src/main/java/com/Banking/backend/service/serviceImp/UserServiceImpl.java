@@ -124,6 +124,7 @@ public class UserServiceImpl implements UserService {
         newUser.setGender(userRegisterRequest.getGender());
         newUser.setPassword(userRegisterRequest.getPassword());
         newUser.setPhone(userRegisterRequest.getPhone());
+        newUser.setActive(true);
         Optional<Role>  defaultRole = RepositoryAccessor.getRoleRepository().findById(2L);
         if (defaultRole.isPresent()) {
             newUser.setRole(defaultRole.get());
@@ -207,6 +208,12 @@ public class UserServiceImpl implements UserService {
                 response.setCode(0);
                 response.setMessage("User Not Found");
                 return response;
+            }
+
+            if (request.getPassword().length() < 8) {
+                
+                response.setCode(0);
+                response.setMessage("Password must be 8 Characters");
             }
 
             user.setPassword(request.getPassword());

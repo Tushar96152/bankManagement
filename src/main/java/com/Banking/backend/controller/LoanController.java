@@ -14,7 +14,7 @@ import com.Banking.backend.dto.request.LoanRepaymentRequestDTO;
 import com.Banking.backend.dto.response.ApiResponse;
 import com.Banking.backend.dto.response.LoanListResponseDTO;
 import com.Banking.backend.dto.response.LoanResponseDTO;
-import com.Banking.backend.entity.Loan;
+
 import com.Banking.backend.repository.ServiceAccessor;
 
 

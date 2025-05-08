@@ -226,8 +226,9 @@ public String generateUniqueAccountNumber() {
        ApiResponse<CreateAccountResponse> response = new ApiResponse<>();
 
        try {
-        
-        BankAccount savedAccount = RepositoryAccessor.getBankAccountRepository().findByUserIdAndIsActive(userId,true);
+        String userNetId = String.valueOf(userId);
+
+        BankAccount savedAccount = RepositoryAccessor.getBankAccountRepository().findByUserNetIdAndIsActive(userNetId,true);
 
         if (!Objects.nonNull(savedAccount)) {
             response.setCode(0);
